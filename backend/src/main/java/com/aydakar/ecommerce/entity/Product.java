@@ -1,6 +1,6 @@
 package com.aydakar.ecommerce.entity;
 
-import com.aydakar.ecommerce.enums.Role;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,32 +11,26 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "`user`")
-public class User {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private long name;
 
-    private String surname;
+    @OneToMany(mappedBy = "product")
+    private Set<CartProduct> cartProducts;
 
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
 
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    private int phoneNumber;
-
-    private String address;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Order> orders;
-
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
+    @OneToMany(mappedBy = "product")
+    private Set<OrderProduct> orderProducts;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
