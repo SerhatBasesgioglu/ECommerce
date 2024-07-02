@@ -34,4 +34,14 @@ public class UserController {
     public void deleteAllUsers() {
         userService.deleteAllUsers();
     }
+
+    @PostMapping("/register")
+    public User registerUser(@RequestBody User user) {
+        return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User user) {
+        return userService.loginUser(user);
+    }
 }

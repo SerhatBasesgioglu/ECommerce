@@ -16,4 +16,8 @@ public class Store {
 
     @OneToMany(mappedBy = "store")
     private Set<Product> products;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

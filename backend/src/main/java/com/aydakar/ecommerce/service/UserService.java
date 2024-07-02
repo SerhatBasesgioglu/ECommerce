@@ -29,4 +29,15 @@ public class UserService {
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }
+
+    public User registerUser(User user) {
+        if (user.getName().equals("serhat")) {
+            System.out.println("Input is serhat mate");
+        }
+        return null;
+    }
+
+    public User loginUser(User user) {
+        return null;
+    }
 }
