@@ -5,6 +5,7 @@ import com.aydakar.ecommerce.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,6 +17,11 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
     }
 
     public User addUser(User user) {
@@ -40,4 +46,6 @@ public class UserService {
     public User loginUser(User user) {
         return null;
     }
+
+
 }
