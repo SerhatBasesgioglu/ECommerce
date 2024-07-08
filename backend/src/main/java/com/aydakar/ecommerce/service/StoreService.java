@@ -10,4 +10,5 @@ public class StoreService {
     public StoreService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
     }
+
 }
