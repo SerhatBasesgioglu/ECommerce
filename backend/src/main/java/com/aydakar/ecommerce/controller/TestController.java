@@ -11,4 +11,19 @@ public class TestController {
     public String sayHello() {
         return "Hello you fuck!";
     }
+
+    @GetMapping("admin")
+    public String sayHelloAdmin() {
+        return "Hello you are an admin";
+    }
+
+    @GetMapping("seller")
+    public String sayHelloSeller() {
+        return "Hello you are an seller";
+    }
+
+    @GetMapping("customer")
+    public String sayHelloCustomer() {
+        return "Hello you are an customer";
+    }
 }

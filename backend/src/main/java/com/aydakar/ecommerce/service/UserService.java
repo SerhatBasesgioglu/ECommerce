@@ -1,11 +1,13 @@
 package com.aydakar.ecommerce.service;
 
-import com.aydakar.ecommerce.entity.User;
-import com.aydakar.ecommerce.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import com.aydakar.ecommerce.entity.User;
+import com.aydakar.ecommerce.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -19,7 +21,7 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public User getUserByEmail(String email) {
+    public UserDetails getUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElse(null);
     }
@@ -35,17 +37,5 @@ public class UserService {
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }
-
-    public User registerUser(User user) {
-        if (user.getName().equals("serhat")) {
-            System.out.println("Input is serhat mate");
-        }
-        return null;
-    }
-
-    public User loginUser(User user) {
-        return null;
-    }
-
 
 }
