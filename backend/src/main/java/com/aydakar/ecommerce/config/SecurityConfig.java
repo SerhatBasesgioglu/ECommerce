@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/test/admin").hasRole("ADMIN")
                         .requestMatchers("/test/seller").hasAnyRole("ADMIN", "SELLER")
                         .requestMatchers("/test/customer").hasAnyRole("ADMIN", "SELLER", "CUSTOMER")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

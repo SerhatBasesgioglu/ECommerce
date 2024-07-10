@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aydakar.ecommerce.entity.User;
@@ -30,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User getUser(@RequestParam Long id) {
+    public User getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
@@ -40,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public User updateUser(@RequestParam Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 

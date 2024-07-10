@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.aydakar.ecommerce.entity.User;
@@ -22,7 +23,7 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Cant find the user"));
     }
 
     public UserDetails getUserByEmail(String email) {

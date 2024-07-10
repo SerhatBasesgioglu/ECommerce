@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.aydakar.ecommerce.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,6 +52,7 @@ public class User implements UserDetails {
     private Set<Order> orders;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Cart cart;
 
     @UpdateTimestamp
