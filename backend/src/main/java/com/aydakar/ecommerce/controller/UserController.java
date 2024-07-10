@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,24 +30,27 @@ public class UserController {
     }
 
     @GetMapping("")
-    public List<UserResponseDto> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<User> userList = userService.getAllUsers();
-        return userList.stream()
+        List<UserResponseDto> response = userList.stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("{id}")
-    public UserResponseDto getUserById(@PathVariable long id) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable long id) {
         User user = userService.getUserById(id);
-        return modelMapper.map(user, UserResponseDto.class);
+        UserResponseDto response = modelMapper.map(user, UserResponseDto.class);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("")
-    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto) {
         User user = modelMapper.map(userRequestDto, User.class);
         User savedUser = userService.createUser(user);
-        return modelMapper.map(savedUser, UserResponseDto.class);
+        UserResponseDto response = modelMapper.map(savedUser, UserResponseDto.class);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("{id}")

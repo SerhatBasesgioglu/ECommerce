@@ -1,6 +1,7 @@
 package com.aydakar.ecommerce.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public UserResponseDto register(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto) {
         User user = modelMapper.map(userRequestDto, User.class);
         User savedUser = authService.register(user);
-        return modelMapper.map(savedUser, UserResponseDto.class);
+        UserResponseDto response = modelMapper.map(savedUser, UserResponseDto.class);
+        return ResponseEntity.ok(response);
     }
 }
