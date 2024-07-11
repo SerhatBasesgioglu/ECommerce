@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.aydakar.ecommerce.entity.Store;
+import com.aydakar.ecommerce.entity.User;
 import com.aydakar.ecommerce.repository.StoreRepository;
 
 @Service
 public class StoreService {
     private final StoreRepository storeRepository;
+    private final AuthService authService;
 
-    public StoreService(StoreRepository storeRepository) {
+    public StoreService(StoreRepository storeRepository, AuthService authService) {
         this.storeRepository = storeRepository;
+        this.authService = authService;
     }
 
     public List<Store> getAllStores() {
@@ -23,7 +26,13 @@ public class StoreService {
         return storeRepository.findById(id).orElse(null);
     }
 
+    public List<Store> getStoresByUserId(long userId) {
+        return (List<Store>) storeRepository.getByUserId(userId);
+    }
+
     public Store createStore(Store store) {
+        User user = authService.getCurrentUser();
+        store.setUser(user);
         return storeRepository.save(store);
     }
 

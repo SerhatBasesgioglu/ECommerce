@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import com.aydakar.ecommerce.entity.Store;
 import com.aydakar.ecommerce.service.StoreService;
 
 @RestController
-@RequestMapping("store")
+@RequestMapping("stores")
 public class StoreController {
     private final StoreService storeService;
     private final ModelMapper modelMapper;
@@ -45,6 +46,7 @@ public class StoreController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     @PostMapping("")
     public ResponseEntity<StoreResponseDto> createStore(@RequestBody StoreRequestDto storeRequestDto) {
         Store store = modelMapper.map(storeRequestDto, Store.class);
@@ -53,6 +55,7 @@ public class StoreController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("{id}")
     public void deleteStoreById(@PathVariable long id) {
         storeService.deleteStoreById(id);

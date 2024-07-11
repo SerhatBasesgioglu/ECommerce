@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +19,8 @@ import com.aydakar.ecommerce.dto.ProductResponseDto;
 import com.aydakar.ecommerce.entity.Product;
 import com.aydakar.ecommerce.service.ProductService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 @RestController
-@RequestMapping("product")
+@RequestMapping("products")
 public class ProductController {
    private final ProductService productService;
    private final ModelMapper modelMapper;
@@ -46,6 +46,7 @@ public class ProductController {
       return ResponseEntity.ok(response);
    }
 
+   @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
    @PostMapping("")
    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productRequestDto) {
       Product product = modelMapper.map(productRequestDto, Product.class);
@@ -54,6 +55,7 @@ public class ProductController {
       return ResponseEntity.ok(response);
    }
 
+   @PreAuthorize("hasAnyRole('ADMIN')")
    @DeleteMapping("{id}")
    public void deleteProduct(@PathVariable long id) {
       productService.deleteProductById(id);
