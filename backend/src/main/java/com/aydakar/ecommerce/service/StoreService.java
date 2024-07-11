@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.aydakar.ecommerce.entity.Store;
 import com.aydakar.ecommerce.entity.User;
+import com.aydakar.ecommerce.exception.ResourceNotFoundException;
+import com.aydakar.ecommerce.exception.UnauthorizedAccessException;
 import com.aydakar.ecommerce.repository.StoreRepository;
 
 @Service
@@ -23,7 +25,8 @@ public class StoreService {
     }
 
     public Store getStoreById(long id) {
-        return storeRepository.findById(id).orElse(null);
+        return storeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("There is not a store with this id: " + id));
     }
 
     public List<Store> getStoresByUserId(long userId) {
@@ -38,5 +41,15 @@ public class StoreService {
 
     public void deleteStoreById(long id) {
         storeRepository.deleteById(id);
+    }
+
+    public void validateStoreAccess(long storeId) {
+        User user = authService.getCurrentUser();
+        List<Store> userStores = getStoresByUserId(user.getId());
+
+        if (userStores.stream().noneMatch(s -> s.getId() == storeId)) {
+            throw new UnauthorizedAccessException("Store does not belong to the user");
+        }
+
     }
 }

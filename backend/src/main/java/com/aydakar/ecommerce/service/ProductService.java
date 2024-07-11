@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.aydakar.ecommerce.entity.Product;
 import com.aydakar.ecommerce.entity.Store;
-import com.aydakar.ecommerce.entity.User;
+import com.aydakar.ecommerce.exception.ResourceNotFoundException;
 import com.aydakar.ecommerce.repository.ProductRepository;
 
 @Service
@@ -26,22 +26,19 @@ public class ProductService {
     }
 
     public Product getProductById(long id) {
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("There is not a product with this id " + id));
     }
 
     public Product createProduct(Product product, long storeId) {
-        User user = authService.getCurrentUser();
-        List<Store> userStores = storeService.getStoresByUserId(user.getId());
-        for (Store store : userStores) {
-            if (store.getId() == storeId) {
-                product.setStore(store);
-                return productRepository.save(product);
-            }
-        }
-        return null;
+        Store store = storeService.getStoreById(storeId);
+        storeService.validateStoreAccess(storeId);
+        product.setStore(store);
+        return productRepository.save(product);
     }
 
     public void deleteProductById(long id) {
         productRepository.deleteById(id);
     }
+
 }
