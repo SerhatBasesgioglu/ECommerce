@@ -47,10 +47,11 @@ public class ProductController {
    }
 
    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
-   @PostMapping("")
-   public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productRequestDto) {
+   @PostMapping("{storeId}")
+   public ResponseEntity<ProductResponseDto> createProduct(@PathVariable long storeId,
+         @RequestBody ProductRequestDto productRequestDto) {
       Product product = modelMapper.map(productRequestDto, Product.class);
-      Product savedProduct = productService.createProduct(product);
+      Product savedProduct = productService.createProduct(product, storeId);
       ProductResponseDto response = modelMapper.map(savedProduct, ProductResponseDto.class);
       return ResponseEntity.ok(response);
    }

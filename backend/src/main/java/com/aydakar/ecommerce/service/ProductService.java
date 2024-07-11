@@ -29,11 +29,16 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(Product product, long storeId) {
         User user = authService.getCurrentUser();
         List<Store> userStores = storeService.getStoresByUserId(user.getId());
-        product.setStore(userStores.get(0)); // Add parameter for store selection
-        return productRepository.save(product);
+        for (Store store : userStores) {
+            if (store.getId() == storeId) {
+                product.setStore(store);
+                return productRepository.save(product);
+            }
+        }
+        return null;
     }
 
     public void deleteProductById(long id) {
