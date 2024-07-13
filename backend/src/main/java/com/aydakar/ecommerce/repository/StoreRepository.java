@@ -10,5 +10,5 @@ import com.aydakar.ecommerce.entity.Store;
 @Repository
 public interface StoreRepository extends CrudRepository<Store, Long> {
 
-    List<Store> getByUserId(long userId);
+    List<Store> findByUserId(long userId);
 }

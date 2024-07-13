@@ -1,6 +1,7 @@
 package com.aydakar.ecommerce.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,16 +13,17 @@ import com.aydakar.ecommerce.repository.ProductRepository;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-    private final AuthService authService;
     private final StoreService storeService;
 
-    public ProductService(ProductRepository productRepository, AuthService authService, StoreService storeService) {
+    public ProductService(ProductRepository productRepository, StoreService storeService) {
         this.productRepository = productRepository;
-        this.authService = authService;
         this.storeService = storeService;
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(Optional<Long> storeId) {
+        if (storeId.isPresent()) {
+            return (List<Product>) productRepository.findByStoreId(storeId.get());
+        }
         return (List<Product>) productRepository.findAll();
     }
 

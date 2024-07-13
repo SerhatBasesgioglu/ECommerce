@@ -1,6 +1,7 @@
 package com.aydakar.ecommerce.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aydakar.ecommerce.dto.ProductRequestDto;
@@ -31,8 +33,8 @@ public class ProductController {
    }
 
    @GetMapping("")
-   public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
-      List<Product> productList = productService.getAllProducts();
+   public ResponseEntity<List<ProductResponseDto>> getAllProducts(@RequestParam Optional<Long> storeId) {
+      List<Product> productList = productService.getAllProducts(storeId);
       List<ProductResponseDto> response = productList.stream()
             .map(product -> modelMapper.map(product, ProductResponseDto.class))
             .collect(Collectors.toList());

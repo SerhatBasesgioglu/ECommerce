@@ -1,6 +1,7 @@
 package com.aydakar.ecommerce.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,17 +21,16 @@ public class StoreService {
         this.authService = authService;
     }
 
-    public List<Store> getAllStores() {
+    public List<Store> getAllStores(Optional<Long> userId) {
+        if (userId.isPresent()) {
+            return ((List<Store>) storeRepository.findByUserId(userId.get()));
+        }
         return (List<Store>) storeRepository.findAll();
     }
 
     public Store getStoreById(long id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("There is not a store with this id: " + id));
-    }
-
-    public List<Store> getStoresByUserId(long userId) {
-        return (List<Store>) storeRepository.getByUserId(userId);
     }
 
     public Store createStore(Store store) {
@@ -45,7 +45,7 @@ public class StoreService {
 
     public void validateStoreAccess(long storeId) {
         User user = authService.getCurrentUser();
-        List<Store> userStores = getStoresByUserId(user.getId());
+        List<Store> userStores = getAllStores(Optional.of(user.getId()));
 
         if (userStores.stream().noneMatch(s -> s.getId() == storeId)) {
             throw new UnauthorizedAccessException("Store does not belong to the user");
