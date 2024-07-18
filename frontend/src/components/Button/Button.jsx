@@ -1,8 +1,10 @@
-const Button = () => {
+"use client";
+
+const Button = ({ text, onClick }) => {
   return (
-    <>
-      <p>This is the button component</p>
-    </>
+    <div className="mx-1 my-1 bg-blue-400">
+      <button onClick={onClick}>{text}</button>
+    </div>
   );
 };
 

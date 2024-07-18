@@ -1,8 +1,16 @@
+"use client";
+
+import Button from "../Button";
+
+const handleButtonClick = () => {
+  alert("Hello world");
+};
+
 const Header = () => {
   return (
-    <>
-      <p>This is the header component</p>
-    </>
+    <nav className="w-screen bg-red-100">
+      <p>Hello world</p>
+    </nav>
   );
 };
 
