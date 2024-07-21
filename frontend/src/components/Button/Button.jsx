@@ -1,8 +1,6 @@
-"use client";
-
-const Button = ({ text, onClick }) => {
+const Button = ({ text, onClick, className }) => {
   return (
-    <div className="mx-1 my-1 bg-blue-400">
+    <div className={`btn btn-sm btn-primary mx-1 ${className}`}>
       <button onClick={onClick}>{text}</button>
     </div>
   );
