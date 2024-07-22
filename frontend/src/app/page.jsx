@@ -1,7 +1,12 @@
+"use client";
+
+import Button from "@/components/Button";
+import Card from "@/components/Card";
+
 const Home = () => {
   return (
     <>
-      <p>This is the home page</p>
+      <Card />
     </>
   );
 };
