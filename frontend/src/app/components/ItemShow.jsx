@@ -1,6 +1,14 @@
 import Card from "@/components/Card";
-const ItemShow = () => {
-  return [...Array(30).keys()].map((key) => <Card key={key} />);
+import { get } from "@/util/api";
+const ItemShow = async () => {
+  const productList = await get("/products");
+  return (
+    <>
+      {productList.map((product, key) => (
+        <Card product={product} key={key} />
+      ))}
+    </>
+  );
 };
 
 export default ItemShow;

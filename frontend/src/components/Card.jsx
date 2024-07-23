@@ -1,15 +1,18 @@
 "use client";
 
 import Button from "@/components/Button";
-const Card = () => {
+import Image from "next/image";
+const Card = ({ product }) => {
+  const imageUri = product.name.toLowerCase().replace(/ /g, "");
   return (
-    <div className="card bg-base-300 w-56 shadow-xl">
+    <div className="card bg-base-300 w-56 m-4 p-2 shadow-xl flex">
       <figure>
-        <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="Shoes" />
+        <Image src={`/images/${imageUri}.png`} alt="iphone" width="128" height="128" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">Super Product</h2>
-        <p>You should buy these!</p>
+        <h2 className="card-title">{product.name}</h2>
+        <p>{product.categoryName}</p>
+        <p>{product.storeName}</p>
         <div className="card-actions">
           <Button text="Buy now" onClick={() => alert("Wow you bought that")} />
         </div>

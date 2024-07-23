@@ -13,7 +13,7 @@ const execute = async (method, uri, data) => {
   let response;
   switch (method) {
     case "get":
-      response = await fetch(path);
+      response = await fetch(path, { cache: "no-store" });
       break;
     case "post":
       response = await fetch(path);
