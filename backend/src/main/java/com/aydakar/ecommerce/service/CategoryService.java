@@ -25,11 +25,20 @@ public class CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("This category does not exist: " + id));
     }
 
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("This category does not exist: " + name));
+    }
+
     public Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
 
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public void validateCategory(Long categoryId) {
+        findCategoryById(categoryId);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.aydakar.ecommerce.enums.Role;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
 
     private String email;
 
+    @Column(unique = true)
     private String password;
 
     @Enumerated(EnumType.STRING)

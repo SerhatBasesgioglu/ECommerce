@@ -33,6 +33,11 @@ public class StoreService {
                 .orElseThrow(() -> new ResourceNotFoundException("There is not a store with this id: " + id));
     }
 
+    public Store getStoreByName(String name) {
+        return storeRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("There is not a store with this name: " + name));
+    }
+
     public Store createStore(Store store) {
         User user = authService.getCurrentUser();
         store.setUser(user);
@@ -43,11 +48,21 @@ public class StoreService {
         storeRepository.deleteById(id);
     }
 
-    public void validateStoreAccess(long storeId) {
+    public void validateStoreAccess(Long storeId) {
+        if (storeId == null) {
+            throw new IllegalArgumentException("Store ID must not be null");
+        }
+
+        Store requestedStore = getStoreById(storeId);
         User user = authService.getCurrentUser();
+
+        if (user == null) {
+            throw new UnauthorizedAccessException("Please login");
+        }
+
         List<Store> userStores = getAllStores(Optional.of(user.getId()));
 
-        if (userStores.stream().noneMatch(s -> s.getId() == storeId)) {
+        if (userStores.stream().noneMatch(s -> s.getId() == requestedStore.getId())) {
             throw new UnauthorizedAccessException("Store does not belong to the user");
         }
 
