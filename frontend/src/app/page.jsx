@@ -2,7 +2,7 @@ import Card from "@/components/Card";
 import CategoryTab from "./components/CategoryTab";
 import RightSide from "./components/RightSide";
 import ItemShow from "./components/ItemShow";
-const Home = () => {
+const HomePage = () => {
   return (
     <div className="flex">
       <div className="flex-none w-1/5">
@@ -18,4 +18,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
